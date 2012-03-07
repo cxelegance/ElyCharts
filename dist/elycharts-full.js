@@ -1,4 +1,3 @@
-/********* Source File: src/elycharts_defaults.js*********/
 /*!*********************************************************************
  * ELYCHARTS v2.1.4-SNAPSHOT $Id$
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -22,14 +21,14 @@ $.elycharts.templates = {
     // type : 'line|pie|funnel|barline'
     
     // Permette di specificare una configurazione di default da utilizzare (definita in $.elycharts.templates.NOME)
-    // La configurazione completa ï¿½ quindi data da tutti i valori della conf di default alla quale viene unita (con sovrascrittura) la conf corrente
-    // Il parametro ï¿½ ricorsivo (la configurazione di default puo' a sua volta avere una configurazione di default)
-    // Se non specificato, la configurazione di default ï¿½ quella con lo stesso nome del tipo di grafico
+    // La configurazione completa è quindi data da tutti i valori della conf di default alla quale viene unita (con sovrascrittura) la conf corrente
+    // Il parametro è ricorsivo (la configurazione di default puo' a sua volta avere una configurazione di default)
+    // Se non specificato, la configurazione di default è quella con lo stesso nome del tipo di grafico
     // template : 'NOME',
     
     /* DATI:
-    // I valori associati a ogni serie del grafico. Ogni serie ï¿½ associata a una chiave dell'oggetto value, il cui 
-    // valore ï¿½ l'array di dati relativi
+    // I valori associati a ogni serie del grafico. Ogni serie è associata a una chiave dell'oggetto value, il cui 
+    // valore è l'array di dati relativi
     values : {},
     
     // Label associate ai valori del grafico
@@ -76,7 +75,7 @@ $.elycharts.templates = {
       tooltip : {
         active : true,
         // Se width ed height vengono impostati a 0 o ad "auto" (equivalenti) non vengono fissate dimensioni, quindi il contenuto si autodimensiona in funzione del tooltip
-        // Impostare a 0|auto ï¿½ incompatibile con il frame SVG, quindi viene automaticamente disabilitato (come se frameProps = false)
+        // Impostare a 0|auto è incompatibile con il frame SVG, quindi viene automaticamente disabilitato (come se frameProps = false)
         width: 100, height: 50, 
         roundedCorners: 5, 
         padding: [6, 6] /* y, x */,
@@ -138,7 +137,7 @@ $.elycharts.templates = {
         // Disegna o meno la label interna al grafico
         active : false,
         // Imposta un offset [X,Y] per la label (le coordinate sono relative al sistema di assi dello specifico settore disegnato. 
-        // Ad es. per il piechart la X ï¿½ la distanza dal centro, la Y lo spostamento ortogonale
+        // Ad es. per il piechart la X è la distanza dal centro, la Y lo spostamento ortogonale
         //offset : [x, y],
         html : false,
         // Proprieta' della label (per HTML = false)
@@ -248,9 +247,9 @@ $.elycharts.templates = {
         padding : [ 5, 5 ],
         // La distanza dal bordo sinistro
         left : 10,
-        // Percorso della linea: [ [ x, y iniziali (rispetto al punto di inizio standard)], ... [x, y intermedi (rispetto al punto di inizio standard)] ..., [x, y finale (rispetto all'angolo del balloon piï¿½ vicino al punto di inizio)] ]
+        // Percorso della linea: [ [ x, y iniziali (rispetto al punto di inizio standard)], ... [x, y intermedi (rispetto al punto di inizio standard)] ..., [x, y finale (rispetto all'angolo del balloon più vicino al punto di inizio)] ]
         line : [ [ 0, 0 ], [0, 0] ],
-        // Proprietï¿½ della linea
+        // Proprietà della linea
         lineProps : { }
       },
       legend : {
@@ -284,7 +283,7 @@ $.elycharts.templates = {
     // Axis
     defaultAxis : {
       // [non per asse x] Normalizza il valore massimo dell'asse in modo che tutte le label abbiamo al massimo N cifre significative
-      // (Es: se il max e' 135 e normalize = 2 verra' impostato il max a 140, ma se il numero di label in y e' 3 verrï¿½ impostato 150)
+      // (Es: se il max e' 135 e normalize = 2 verra' impostato il max a 140, ma se il numero di label in y e' 3 verrà impostato 150)
       normalize: 2,
       // Permette di impostare i valori minimi e massimi di asse (invece di autorilevarli)
       min: 0, //max: x,
@@ -327,7 +326,7 @@ $.elycharts.templates = {
       // Tipo di serie, puo' essere 'line' o 'bar'
       type : 'line', 
       // L'asse di riferimento della serie. Gli assi "l" ed "r" sono i 2 assi visibili destro e sinistro. 
-      // E' possibile inserire anche un asse arbitrario (che non sarï¿½ visibile)
+      // E' possibile inserire anche un asse arbitrario (che non sarà visibile)
       axis : 'l',
       // Specificare cumulative = true se i valori inseriti per la serie sono cumulativi
       cumulative : false,
@@ -452,7 +451,6 @@ $.elycharts.templates = {
 }
 
 })(jQuery);
-/********* Source File: src/elycharts_core.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -1598,7 +1596,6 @@ TODO
 * ripristinare shadow
 
 *********************************************/
-/********* Source File: src/elycharts_manager_anchor.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -1709,7 +1706,6 @@ $.elycharts.anchormanager = {
 $.elycharts.featuresmanager.register($.elycharts.anchormanager, 30);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_animation.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2105,7 +2101,6 @@ $.elycharts.frameanimationmanager = {
 $.elycharts.featuresmanager.register($.elycharts.frameanimationmanager, 90);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_balloon.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2184,7 +2179,6 @@ $.elycharts.balloonmanager = {
 $.elycharts.featuresmanager.register($.elycharts.balloonmanager, 30);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_highlight.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2408,7 +2402,6 @@ $.elycharts.highlightmanager = {
 $.elycharts.featuresmanager.register($.elycharts.highlightmanager, 21);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_label.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2542,7 +2535,6 @@ $.elycharts.labelmanager = {
 $.elycharts.featuresmanager.register($.elycharts.labelmanager, 5);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_legend.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2686,7 +2678,6 @@ $.elycharts.legendmanager = {
 $.elycharts.featuresmanager.register($.elycharts.legendmanager, 90);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_mouse.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2720,7 +2711,7 @@ $.elycharts.mousemanager = {
       // Meglio fare anche l'unbind???
     }
 
-    env.mouseLayer = $('<div></div>').css({position : 'absolute', 'z-index' : 20, opacity : 0}).prependTo(env.container);
+    env.mouseLayer = $('<div></div>').css({position : 'absolute', 'z-index' : 20, opacity : 0, left : 0, top : 0}).prependTo(env.container);
     env.mousePaper = common._RaphaelInstance(env.mouseLayer.get(0), env.opt.width, env.opt.height);
     var paper = env.mousePaper;
 
@@ -2911,7 +2902,6 @@ $.elycharts.mousemanager = {
 $.elycharts.featuresmanager.register($.elycharts.mousemanager, 0);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_shadow.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2966,7 +2956,6 @@ $.elycharts.shadowmanager = {
 $.elycharts.featuresmanager.register($.elycharts.shadowmanager, 5);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_tooltip.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -3171,7 +3160,6 @@ $.elycharts.tooltipmanager = {
 $.elycharts.featuresmanager.register($.elycharts.tooltipmanager, 20);
 
 })(jQuery);
-/********* Source File: src/elycharts_chart_barline.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -3258,7 +3246,6 @@ $.elycharts.barline = {
 };
 
 })(jQuery);
-/********* Source File: src/elycharts_chart_funnel.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -3387,7 +3374,6 @@ $.elycharts.funnel = {
 };
 
 })(jQuery);
-/********* Source File: src/elycharts_chart_line.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -3986,7 +3972,6 @@ $.elycharts.line = {
 }
 
 })(jQuery);
-/********* Source File: src/elycharts_chart_pie.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.

@@ -31,7 +31,7 @@ $.elycharts.mousemanager = {
       // Meglio fare anche l'unbind???
     }
 
-    env.mouseLayer = $('<div></div>').css({position : 'absolute', 'z-index' : 20, opacity : 0}).prependTo(env.container);
+    env.mouseLayer = $('<div></div>').css({position : 'absolute', 'z-index' : 20, opacity : 0, left : 0, top : 0}).prependTo(env.container);
     env.mousePaper = common._RaphaelInstance(env.mouseLayer.get(0), env.opt.width, env.opt.height);
     var paper = env.mousePaper;
 
