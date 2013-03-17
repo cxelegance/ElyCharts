@@ -66,7 +66,7 @@ $.elycharts.line = {
               if (val == null) {
                 if (props.type == 'bar')
                   val = 0;
-                else {
+                else if (props.avgOverNulls) {
                   for (var j = i + 1; j < values[serie].length && values[serie][j] == null; j++) {}
                   var next = j < values[serie].length ? values[serie][j] : null;
                   for (var k = i -1; k >= 0 && values[serie][k] == null; k--) {}
@@ -214,6 +214,7 @@ $.elycharts.line = {
           var linePath = [ 'LINE', [], props.rounded ];
           var fillPath = [ 'LINEAREA', [], [], props.rounded ];
           var dotPieces = [];
+          var linePaths = [], fillPaths = []; // wrap and contain clusters/instances of linePath and fillPath
           
           for (i = 0, ii = labels.length; i < ii; i++)
             if (plot.to.length > i) {
@@ -225,30 +226,45 @@ $.elycharts.line = {
               var dd = plot.from[i] > plot.max ? plot.max : (plot.from[i] < plot.min ? plot.min : plot.from[i]);
               var yy = Math.round(opt.height - opt.margins[2] - deltaY * (dd - plot.min)) + ($.browser.msie ? 1 : 0);
 
-              linePath[1].push([x, y]);
+              if (d == null) {
+                if (!props.avgOverNulls && linePath[1].length > 0) { // avg over null values? or break serie into parts?
+                  linePaths.push (linePath.slice ());
+                  fillPaths.push (fillPath.slice ());
+                  linePath = [ 'LINE', [], props.rounded ];
+                  fillPath = [ 'LINEAREA', [], [], props.rounded ];
+                }
+              } else {
+                linePath[1].push([x, y]);
 
-              if (props.fill) {
-                fillPath[1].push([x, y]);
-                fillPath[2].push([x, yy]);
-              }
-              if (indexProps.dot) {
-                if (values[serie][i] == null && !indexProps.dotShowOnNull)
-                  dotPieces.push({path : false, attr : false});
-                else
-                  dotPieces.push({path : [ [ 'CIRCLE', x, y, indexProps.dotProps.size ] ], attr : indexProps.dotProps}); // TODO Size should not be in dotProps (not an svg props)
+                if (props.fill) {
+                  fillPath[1].push([x, y]);
+                  fillPath[2].push([x, yy]);
+                }
+                if (indexProps.dot) {
+                  if (values[serie][i] == null && !indexProps.dotShowOnNull)
+                    dotPieces.push({path : false, attr : false});
+                  else
+                    dotPieces.push({path : [ [ 'CIRCLE', x, y, indexProps.dotProps.size ] ], attr : indexProps.dotProps}); // TODO Size should not be in dotProps (not an svg props)
+                }
               }
             }
 
-          if (props.fill)
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : [ fillPath ], attr : props.fillProps });
-          else 
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : false, attr : false });
-          pieces.push({ section : 'Series', serie : serie, subSection : 'Plot', path : [ linePath ], attr : props.plotProps , mousearea : 'pathsteps'});
-          
-          if (dotPieces.length)
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', paths : dotPieces });
-          else
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', path : false, attr : false });
+          if (linePath[1].length > 0) { // remaining bit of serie after final null
+            linePaths.push (linePath.slice ());
+            fillPaths.push (fillPath.slice ());
+          }
+
+          for (k = 0; k < linePaths.length; k++) { // serie is now broken into separate pieces
+            if (props.fill)
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : [fillPaths[k]], attr : props.fillProps });
+            else 
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : false, attr : false });
+            pieces.push({ section : 'Series', serie : serie, subSection : 'Plot', path : [linePaths[k]], attr : props.plotProps , mousearea : 'pathsteps'});
+          }          
+            if (dotPieces.length)
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', paths : dotPieces });
+            else
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', path : false, attr : false });
           
         } else {
           pieceBar = [];

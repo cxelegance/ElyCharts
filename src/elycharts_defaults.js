@@ -350,6 +350,7 @@ $.elycharts.templates = {
       dot : false,
       dotProps : {size: 4, stroke: "#000", zindex: 5},
       dotShowOnNull : false,
+      avgOverNulls: true, // in a line chart, you can avg over from last good value to next good value, or just leave blank (don't draw)
 
       mouseareaShowOnNull : false,
       
