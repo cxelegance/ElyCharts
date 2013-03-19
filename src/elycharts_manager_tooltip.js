@@ -101,7 +101,8 @@ $.elycharts.tooltipmanager = {
       var cr = Math.sqrt(Math.pow(w,2) + Math.pow(h,2)) / 2;
       if (cr > env.opt.r)
               cr = env.opt.r;
-      
+      if (cr > props.r) // this option (defaultSeries.tooltip.r) overrides all
+              cr = props.r;
       var tipangle = path[5] + (path[6] - path[5]) / 2 + 180;
       var rad = Math.PI / 180;
       x = path[1] + cr * Math.cos(- tipangle * rad) - w / 2;

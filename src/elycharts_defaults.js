@@ -423,6 +423,9 @@ $.elycharts.templates = {
     defaultSeries : {
       // r: .5, raggio usato solo per questo spicchio, se <=1 e' in rapporto al raggio generale
       // inside: X, inserisce questo spicchio dentro un altro (funziona solo inside: precedente, e non gestisce + spicchi dentro l'altro)
+      tooltip : {
+        // r: 0 // max radius of tooltip inner-secret circle; you can center the tooltip in middle of pie by setting this value to zero
+      }
     }
   },
 
