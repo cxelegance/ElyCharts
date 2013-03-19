@@ -228,8 +228,8 @@ $.elycharts.line = {
 
               if (d == null) {
                 if (!props.avgOverNulls && linePath[1].length > 0) { // avg over null values? or break serie into parts?
-                  linePaths.push (linePath.slice ());
-                  fillPaths.push (fillPath.slice ());
+                  linePaths.push (linePath.slice (0));
+                  fillPaths.push (fillPath.slice (0));
                   linePath = [ 'LINE', [], props.rounded ];
                   fillPath = [ 'LINEAREA', [], [], props.rounded ];
                 }
@@ -250,8 +250,8 @@ $.elycharts.line = {
             }
 
           if (linePath[1].length > 0) { // remaining bit of serie after final null
-            linePaths.push (linePath.slice ());
-            fillPaths.push (fillPath.slice ());
+            linePaths.push (linePath.slice (0));
+            fillPaths.push (fillPath.slice (0));
           }
 
           for (k = 0; k < linePaths.length; k++) { // serie is now broken into separate pieces
