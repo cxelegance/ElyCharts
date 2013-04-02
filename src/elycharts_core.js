@@ -29,6 +29,12 @@ $.fn.chart = function($options) {
       if ($env) {
         // TODO Bisogna chiamare il destroy delle feature?
         $env.paper.clear();
+        if ($env.mousePaper) $env.mousePaper.clear ();
+        if ($env.tooltipFrame) $env.tooltipFrame.clear ();
+        if ($env.tooltipFrameElement && $env.tooltipFrameElement.paper) $env.tooltipFrameElement.paper.clear ();
+        //\$env.tooltipFrameElement.clear (); // not a paper, cannot 'clear'
+        if ($env.tooltipContent) $env.tooltipContent.remove ();
+        if ($env.tooltipContainer) $env.tooltipContainer.remove ();
         this.html("");
         this.data('elycharts_env', false);
       }
