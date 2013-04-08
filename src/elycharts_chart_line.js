@@ -281,7 +281,15 @@ $.elycharts.line = {
                 var y1 = Math.round(opt.height - opt.margins[2] - deltaY * (plot.to[i] - plot.min));
                 var y2 = Math.round(opt.height - opt.margins[2] - deltaY * (plot.from[i] - plot.min));
 
-                pieceBar.push({path : [ [ 'RECT', x1, y1, x1 + bwid - bpad * 2, y2 ] ], attr : props.plotProps });
+		var fillProps = {}; // to be used in the pieceBar.push only
+		if (props.fill && props.fillProps) {
+			fillProps = { // bar should be stroked and filled like a line; this var will extend the plotProps
+				fill : props.fillProps.fill ? props.fillProps.fill : 'none', // we want the fill color and fill opacity that were declared in options or in normalize method(s)
+				'fill-opacity' : props.fillProps['fill-opacity'] ? props.fillProps['fill-opacity'] : (props.fillProps.opacity ? props.fillProps.opacity : false) // fill-opacity takes precedence over (and overrides) opacity
+			};
+		}
+
+                pieceBar.push({path : [ [ 'RECT', x1, y1, x1 + bwid - bpad * 2, y2 ] ], attr : $.extend ({}, props.plotProps, fillProps) });
               } else
                 pieceBar.push({path : false, attr : false });
             }

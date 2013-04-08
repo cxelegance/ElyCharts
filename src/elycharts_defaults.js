@@ -345,7 +345,8 @@ $.elycharts.templates = {
       
       // Attiva o disattiva il riempimento
       fill : false, 
-      fillProps : {stroke: "none", "stroke-width" : 0, "stroke-opacity": 0, opacity: .3},
+      fillProps : {stroke: "none", "stroke-width" : 0, "stroke-opacity": 0, opacity: 0.3}, // in case of 'bar', only 'fill' and 'fill-opacity' are used
+         // fill can be different than the bar's outline/stroke by declaring 'fill' here; 'fill-opacity' or 'opacity' will affect fill color but not border (that is plotProps)
 
       dot : false,
       dotProps : {size: 4, stroke: "#000", zindex: 5},

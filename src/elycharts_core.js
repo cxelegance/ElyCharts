@@ -226,10 +226,10 @@ function _normalizeOptionsColor($section, $type, $fullopt) {
     if (!$section.plotProps)
       $section.plotProps = {};
     
-    if ($type == 'line') {
+    if ($type == 'line' || $type == 'bar') {
       if ($section.plotProps && !$section.plotProps.stroke && !$fullopt.defaultSeries.plotProps.stroke)
         $section.plotProps.stroke = color;
-    } else {
+    } else { // CXElegance: have not tested for other types (pie, funnel, ?) making this case
       if ($section.plotProps && !$section.plotProps.fill && !$fullopt.defaultSeries.plotProps.fill)
         $section.plotProps.fill = color;
     }
@@ -249,7 +249,7 @@ function _normalizeOptionsColor($section, $type, $fullopt) {
     if ($section.legend.dotProps && !$section.legend.dotProps.fill)
       $section.legend.dotProps.fill = color;
       
-    if ($type == 'line') {
+    if ($type == 'line' || $type == 'bar') { // 'bar' needs to be like 'line'
       if (!$section.dotProps)
         $section.dotProps = {};
       if ($section.dotProps && !$section.dotProps.fill && !$fullopt.defaultSeries.dotProps.fill)
