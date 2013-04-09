@@ -42,7 +42,7 @@ $.elycharts.mousemanager = {
       });
     }
 
-    var i, j;
+    var i, j, serieCount = [];
 
     // Adding mouseover only in right area, based on pieces
     env.mouseAreas = [];
@@ -53,7 +53,8 @@ $.elycharts.mousemanager = {
           // pathstep
           if (!pieces[i].paths) {
             // path standard, generating an area for each point
-            if (pieces[i].path.length >= 1 && (pieces[i].path[0][0] == 'LINE' || pieces[i].path[0][0] == 'LINEAREA'))
+            if (pieces[i].path.length >= 1 && (pieces[i].path[0][0] == 'LINE' || pieces[i].path[0][0] == 'LINEAREA')) {
+              if (!serieCount[pieces[i].serie]) serieCount[pieces[i].serie] = 0; // init counter for this serie; a serie may be broken into pieces due to nulls; depends upon avgOverNulls
               for (j = 0; j < pieces[i].path[0][1].length; j++) {
                 var props = common.areaProps(env, pieces[i].section, pieces[i].serie);
                 if (props.mouseareaShowOnNull || pieces[i].section != 'Series' || env.opt.values[pieces[i].serie][j] != null)
@@ -61,10 +62,11 @@ $.elycharts.mousemanager = {
                     path : [ [ 'CIRCLE', pieces[i].path[0][1][j][0], pieces[i].path[0][1][j][1], 10 ] ],
                     piece : pieces[i],
                     pieces : pieces,
-                    index : j,
+                    index : serieCount[pieces[i].serie]++, // used to be j, but because of possible nulls breaking serie into pieces, this is better and allows correct index for mouseArea
                     props : props
                   });
               }
+            }
               
             else // Code below is only for standard path - it should be useless now (now there are only LINE and LINEAREA)
               // TODO DELETE
