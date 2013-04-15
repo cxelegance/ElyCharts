@@ -57,7 +57,13 @@ $.elycharts.mousemanager = {
               if (!serieCount[pieces[i].serie]) serieCount[pieces[i].serie] = 0; // init counter for this serie; a serie may be broken into pieces due to nulls; depends upon avgOverNulls
               for (j = 0; j < pieces[i].path[0][1].length; j++) {
                 var props = common.areaProps(env, pieces[i].section, pieces[i].serie);
-                if (props.mouseareaShowOnNull || pieces[i].section != 'Series' || env.opt.values[pieces[i].serie][j] != null)
+                if (
+                  !(
+                    env.opt.features.mousearea.skipNullTooltip // do we skip points in the serie that have no tooltip defined?
+                    && !(env.opt.tooltips && env.opt.tooltips[pieces[i].serie] && env.opt.tooltips[pieces[i].serie][j]) // is there a tooltip for this point in the serie?
+                  )
+                  && (props.mouseareaShowOnNull || pieces[i].section != 'Series' || env.opt.values[pieces[i].serie][j] != null)
+                )
                   env.mouseAreas.push({
                     path : [ [ 'CIRCLE', pieces[i].path[0][1][j][0], pieces[i].path[0][1][j][1], 10 ] ],
                     piece : pieces[i],

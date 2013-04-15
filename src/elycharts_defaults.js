@@ -189,6 +189,7 @@ $.elycharts.templates = {
         areaMoveDelay : 500,
         // Se diversi chart specificano lo stesso syncTag quando si attiva l'area di uno si disattivano quelle degli altri
         syncTag: false,
+        skipNullTooltip: false, // if tooltip is empty, don't create mousearea for hover/tooltip
         // Callback for mouse actions. Parameters passed: (env, serie, index, mouseAreaData)
         onMouseEnter : false,
         onMouseExit : false,
