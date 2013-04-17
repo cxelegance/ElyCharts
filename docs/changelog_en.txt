@@ -1,3 +1,11 @@
+2.1.4-SNAPSHOT-CXE-1.0
+- line chart: with null/undefined tooltips; option to not create mousearea for hover/tooltip
+- line chart: with null values in serie: option to NOT average over them; leave empty
+- line chart: bars/histogram: use fillProps for some properties (on top of plotProps); more similar to line plotting
+- clear/destroy: remove more Raphael and jQuery objects related to a chart (more thorough cleanup)
+- slice() calls: should have atleast one argument, technically (W3)
+- pie chart: tooltip: can restrict radius of invisible circle-path (good for centering)
+
 v2.1.4-SNAPSHOT
 - fix for colors propagation from defaultSeries to single serie (Issue #11)
 - added "auto" modes for labelsAnchor and labelsPos so that most use cases it will simply set sensible values for them based on labelsCenter/labelsRotate

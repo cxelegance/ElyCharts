@@ -1,6 +1,5 @@
-/********* Source File: src/elycharts_defaults.js*********/
 /*!*********************************************************************
- * ELYCHARTS v2.1.4-SNAPSHOT $Id$
+ * ELYCHARTS v2.1.4-SNAPSHOT-CXE-1.0 $Id$
  * A Javascript library to generate interactive charts with vectorial graphics.
  *
  * Copyright (c) 2010 Void Labs s.n.c. (http://void.it)
@@ -22,14 +21,14 @@ $.elycharts.templates = {
     // type : 'line|pie|funnel|barline'
     
     // Permette di specificare una configurazione di default da utilizzare (definita in $.elycharts.templates.NOME)
-    // La configurazione completa ï¿½ quindi data da tutti i valori della conf di default alla quale viene unita (con sovrascrittura) la conf corrente
-    // Il parametro ï¿½ ricorsivo (la configurazione di default puo' a sua volta avere una configurazione di default)
-    // Se non specificato, la configurazione di default ï¿½ quella con lo stesso nome del tipo di grafico
+    // La configurazione completa è quindi data da tutti i valori della conf di default alla quale viene unita (con sovrascrittura) la conf corrente
+    // Il parametro è ricorsivo (la configurazione di default puo' a sua volta avere una configurazione di default)
+    // Se non specificato, la configurazione di default è quella con lo stesso nome del tipo di grafico
     // template : 'NOME',
     
     /* DATI:
-    // I valori associati a ogni serie del grafico. Ogni serie ï¿½ associata a una chiave dell'oggetto value, il cui 
-    // valore ï¿½ l'array di dati relativi
+    // I valori associati a ogni serie del grafico. Ogni serie è associata a una chiave dell'oggetto value, il cui 
+    // valore è l'array di dati relativi
     values : {},
     
     // Label associate ai valori del grafico
@@ -76,7 +75,7 @@ $.elycharts.templates = {
       tooltip : {
         active : true,
         // Se width ed height vengono impostati a 0 o ad "auto" (equivalenti) non vengono fissate dimensioni, quindi il contenuto si autodimensiona in funzione del tooltip
-        // Impostare a 0|auto ï¿½ incompatibile con il frame SVG, quindi viene automaticamente disabilitato (come se frameProps = false)
+        // Impostare a 0|auto è incompatibile con il frame SVG, quindi viene automaticamente disabilitato (come se frameProps = false)
         width: 100, height: 50, 
         roundedCorners: 5, 
         padding: [6, 6] /* y, x */,
@@ -138,7 +137,7 @@ $.elycharts.templates = {
         // Disegna o meno la label interna al grafico
         active : false,
         // Imposta un offset [X,Y] per la label (le coordinate sono relative al sistema di assi dello specifico settore disegnato. 
-        // Ad es. per il piechart la X ï¿½ la distanza dal centro, la Y lo spostamento ortogonale
+        // Ad es. per il piechart la X è la distanza dal centro, la Y lo spostamento ortogonale
         //offset : [x, y],
         html : false,
         // Proprieta' della label (per HTML = false)
@@ -190,6 +189,7 @@ $.elycharts.templates = {
         areaMoveDelay : 500,
         // Se diversi chart specificano lo stesso syncTag quando si attiva l'area di uno si disattivano quelle degli altri
         syncTag: false,
+        skipNullTooltip: false, // if tooltip is empty, don't create mousearea for hover/tooltip
         // Callback for mouse actions. Parameters passed: (env, serie, index, mouseAreaData)
         onMouseEnter : false,
         onMouseExit : false,
@@ -248,9 +248,9 @@ $.elycharts.templates = {
         padding : [ 5, 5 ],
         // La distanza dal bordo sinistro
         left : 10,
-        // Percorso della linea: [ [ x, y iniziali (rispetto al punto di inizio standard)], ... [x, y intermedi (rispetto al punto di inizio standard)] ..., [x, y finale (rispetto all'angolo del balloon piï¿½ vicino al punto di inizio)] ]
+        // Percorso della linea: [ [ x, y iniziali (rispetto al punto di inizio standard)], ... [x, y intermedi (rispetto al punto di inizio standard)] ..., [x, y finale (rispetto all'angolo del balloon più vicino al punto di inizio)] ]
         line : [ [ 0, 0 ], [0, 0] ],
-        // Proprietï¿½ della linea
+        // Proprietà della linea
         lineProps : { }
       },
       legend : {
@@ -284,7 +284,7 @@ $.elycharts.templates = {
     // Axis
     defaultAxis : {
       // [non per asse x] Normalizza il valore massimo dell'asse in modo che tutte le label abbiamo al massimo N cifre significative
-      // (Es: se il max e' 135 e normalize = 2 verra' impostato il max a 140, ma se il numero di label in y e' 3 verrï¿½ impostato 150)
+      // (Es: se il max e' 135 e normalize = 2 verra' impostato il max a 140, ma se il numero di label in y e' 3 verrà impostato 150)
       normalize: 2,
       // Permette di impostare i valori minimi e massimi di asse (invece di autorilevarli)
       min: 0, //max: x,
@@ -327,7 +327,7 @@ $.elycharts.templates = {
       // Tipo di serie, puo' essere 'line' o 'bar'
       type : 'line', 
       // L'asse di riferimento della serie. Gli assi "l" ed "r" sono i 2 assi visibili destro e sinistro. 
-      // E' possibile inserire anche un asse arbitrario (che non sarï¿½ visibile)
+      // E' possibile inserire anche un asse arbitrario (che non sarà visibile)
       axis : 'l',
       // Specificare cumulative = true se i valori inseriti per la serie sono cumulativi
       cumulative : false,
@@ -346,11 +346,13 @@ $.elycharts.templates = {
       
       // Attiva o disattiva il riempimento
       fill : false, 
-      fillProps : {stroke: "none", "stroke-width" : 0, "stroke-opacity": 0, opacity: .3},
+      fillProps : {stroke: "none", "stroke-width" : 0, "stroke-opacity": 0, opacity: 0.3}, // in case of 'bar', only 'fill' and 'fill-opacity' are used
+         // fill can be different than the bar's outline/stroke by declaring 'fill' here; 'fill-opacity' or 'opacity' will affect fill color but not border (that is plotProps)
 
       dot : false,
       dotProps : {size: 4, stroke: "#000", zindex: 5},
-      dotShowOnNull : false,
+      dotShowOnNull : false, // if avgOverNulls, you can show a dot along the average line where value would have been, but you won't get a tooltip 
+      avgOverNulls: true, // in a line chart, when there are nulls, you can avg over from last good value to next good value, or just leave blank (don't draw)
 
       mouseareaShowOnNull : false,
       
@@ -423,6 +425,9 @@ $.elycharts.templates = {
     defaultSeries : {
       // r: .5, raggio usato solo per questo spicchio, se <=1 e' in rapporto al raggio generale
       // inside: X, inserisce questo spicchio dentro un altro (funziona solo inside: precedente, e non gestisce + spicchi dentro l'altro)
+      tooltip : {
+        // r: 0 // max radius of tooltip inner-secret circle; you can center the tooltip in middle of pie by setting this value to zero
+      }
     }
   },
 
@@ -452,7 +457,6 @@ $.elycharts.templates = {
 }
 
 })(jQuery);
-/********* Source File: src/elycharts_core.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -484,6 +488,12 @@ $.fn.chart = function($options) {
       if ($env) {
         // TODO Bisogna chiamare il destroy delle feature?
         $env.paper.clear();
+        if ($env.mousePaper) $env.mousePaper.clear ();
+        if ($env.tooltipFrame) $env.tooltipFrame.clear ();
+        if ($env.tooltipFrameElement && $env.tooltipFrameElement.paper) $env.tooltipFrameElement.paper.clear ();
+        //\$env.tooltipFrameElement.clear (); // not a paper, cannot 'clear'
+        if ($env.tooltipContent) $env.tooltipContent.remove ();
+        if ($env.tooltipContainer) $env.tooltipContainer.remove ();
         this.html("");
         this.data('elycharts_env', false);
       }
@@ -675,10 +685,10 @@ function _normalizeOptionsColor($section, $type, $fullopt) {
     if (!$section.plotProps)
       $section.plotProps = {};
     
-    if ($type == 'line') {
+    if ($type == 'line' || $type == 'bar') {
       if ($section.plotProps && !$section.plotProps.stroke && !$fullopt.defaultSeries.plotProps.stroke)
         $section.plotProps.stroke = color;
-    } else {
+    } else { // CXElegance: have not tested for other types (pie, funnel, ?) making this case
       if ($section.plotProps && !$section.plotProps.fill && !$fullopt.defaultSeries.plotProps.fill)
         $section.plotProps.fill = color;
     }
@@ -698,7 +708,7 @@ function _normalizeOptionsColor($section, $type, $fullopt) {
     if ($section.legend.dotProps && !$section.legend.dotProps.fill)
       $section.legend.dotProps.fill = color;
       
-    if ($type == 'line') {
+    if ($type == 'line' || $type == 'bar') { // 'bar' needs to be like 'line'
       if (!$section.dotProps)
         $section.dotProps = {};
       if ($section.dotProps && !$section.dotProps.fill && !$fullopt.defaultSeries.dotProps.fill)
@@ -1598,7 +1608,6 @@ TODO
 * ripristinare shadow
 
 *********************************************/
-/********* Source File: src/elycharts_manager_anchor.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -1709,7 +1718,6 @@ $.elycharts.anchormanager = {
 $.elycharts.featuresmanager.register($.elycharts.anchormanager, 30);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_animation.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2105,7 +2113,6 @@ $.elycharts.frameanimationmanager = {
 $.elycharts.featuresmanager.register($.elycharts.frameanimationmanager, 90);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_highlight.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2329,7 +2336,6 @@ $.elycharts.highlightmanager = {
 $.elycharts.featuresmanager.register($.elycharts.highlightmanager, 21);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_label.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2463,7 +2469,6 @@ $.elycharts.labelmanager = {
 $.elycharts.featuresmanager.register($.elycharts.labelmanager, 5);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_legend.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2607,7 +2612,6 @@ $.elycharts.legendmanager = {
 $.elycharts.featuresmanager.register($.elycharts.legendmanager, 90);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_mouse.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2652,7 +2656,7 @@ $.elycharts.mousemanager = {
       });
     }
 
-    var i, j;
+    var i, j, serieCount = [];
 
     // Adding mouseover only in right area, based on pieces
     env.mouseAreas = [];
@@ -2663,18 +2667,26 @@ $.elycharts.mousemanager = {
           // pathstep
           if (!pieces[i].paths) {
             // path standard, generating an area for each point
-            if (pieces[i].path.length >= 1 && (pieces[i].path[0][0] == 'LINE' || pieces[i].path[0][0] == 'LINEAREA'))
+            if (pieces[i].path.length >= 1 && (pieces[i].path[0][0] == 'LINE' || pieces[i].path[0][0] == 'LINEAREA')) {
+              if (!serieCount[pieces[i].serie]) serieCount[pieces[i].serie] = 0; // init counter for this serie; a serie may be broken into pieces due to nulls; depends upon avgOverNulls
               for (j = 0; j < pieces[i].path[0][1].length; j++) {
                 var props = common.areaProps(env, pieces[i].section, pieces[i].serie);
-                if (props.mouseareaShowOnNull || pieces[i].section != 'Series' || env.opt.values[pieces[i].serie][j] != null)
+                if (
+                  !(
+                    env.opt.features.mousearea.skipNullTooltip // do we skip points in the serie that have no tooltip defined?
+                    && !(env.opt.tooltips && env.opt.tooltips[pieces[i].serie] && env.opt.tooltips[pieces[i].serie][j]) // is there a tooltip for this point in the serie?
+                  )
+                  && (props.mouseareaShowOnNull || pieces[i].section != 'Series' || env.opt.values[pieces[i].serie][j] != null)
+                )
                   env.mouseAreas.push({
                     path : [ [ 'CIRCLE', pieces[i].path[0][1][j][0], pieces[i].path[0][1][j][1], 10 ] ],
                     piece : pieces[i],
                     pieces : pieces,
-                    index : j,
+                    index : serieCount[pieces[i].serie]++, // used to be j, but because of possible nulls breaking serie into pieces, this is better and allows correct index for mouseArea
                     props : props
                   });
               }
+            }
               
             else // Code below is only for standard path - it should be useless now (now there are only LINE and LINEAREA)
               // TODO DELETE
@@ -2832,7 +2844,6 @@ $.elycharts.mousemanager = {
 $.elycharts.featuresmanager.register($.elycharts.mousemanager, 0);
 
 })(jQuery);
-/********* Source File: src/elycharts_manager_tooltip.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -2936,7 +2947,8 @@ $.elycharts.tooltipmanager = {
       var cr = Math.sqrt(Math.pow(w,2) + Math.pow(h,2)) / 2;
       if (cr > env.opt.r)
               cr = env.opt.r;
-      
+      if (cr > props.r) // this option (defaultSeries.tooltip.r) overrides all
+              cr = props.r;
       var tipangle = path[5] + (path[6] - path[5]) / 2 + 180;
       var rad = Math.PI / 180;
       x = path[1] + cr * Math.cos(- tipangle * rad) - w / 2;
@@ -3037,7 +3049,6 @@ $.elycharts.tooltipmanager = {
 $.elycharts.featuresmanager.register($.elycharts.tooltipmanager, 20);
 
 })(jQuery);
-/********* Source File: src/elycharts_chart_line.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
@@ -3106,7 +3117,7 @@ $.elycharts.line = {
               if (val == null) {
                 if (props.type == 'bar')
                   val = 0;
-                else {
+                else if (props.avgOverNulls) {
                   for (var j = i + 1; j < values[serie].length && values[serie][j] == null; j++) {}
                   var next = j < values[serie].length ? values[serie][j] : null;
                   for (var k = i -1; k >= 0 && values[serie][k] == null; k--) {}
@@ -3254,6 +3265,7 @@ $.elycharts.line = {
           var linePath = [ 'LINE', [], props.rounded ];
           var fillPath = [ 'LINEAREA', [], [], props.rounded ];
           var dotPieces = [];
+          var linePaths = [], fillPaths = []; // wrap and contain clusters/instances of linePath and fillPath
           
           for (i = 0, ii = labels.length; i < ii; i++)
             if (plot.to.length > i) {
@@ -3265,30 +3277,45 @@ $.elycharts.line = {
               var dd = plot.from[i] > plot.max ? plot.max : (plot.from[i] < plot.min ? plot.min : plot.from[i]);
               var yy = Math.round(opt.height - opt.margins[2] - deltaY * (dd - plot.min)) + ($.browser.msie ? 1 : 0);
 
-              linePath[1].push([x, y]);
+              if (d == null) {
+                if (!props.avgOverNulls && linePath[1].length > 0) { // avg over null values? or break serie into parts?
+                  linePaths.push (linePath.slice (0));
+                  fillPaths.push (fillPath.slice (0));
+                  linePath = [ 'LINE', [], props.rounded ];
+                  fillPath = [ 'LINEAREA', [], [], props.rounded ];
+                }
+              } else {
+                linePath[1].push([x, y]);
 
-              if (props.fill) {
-                fillPath[1].push([x, y]);
-                fillPath[2].push([x, yy]);
-              }
-              if (indexProps.dot) {
-                if (values[serie][i] == null && !indexProps.dotShowOnNull)
-                  dotPieces.push({path : false, attr : false});
-                else
-                  dotPieces.push({path : [ [ 'CIRCLE', x, y, indexProps.dotProps.size ] ], attr : indexProps.dotProps}); // TODO Size should not be in dotProps (not an svg props)
+                if (props.fill) {
+                  fillPath[1].push([x, y]);
+                  fillPath[2].push([x, yy]);
+                }
+                if (indexProps.dot) {
+                  if (values[serie][i] == null && !indexProps.dotShowOnNull)
+                    dotPieces.push({path : false, attr : false});
+                  else
+                    dotPieces.push({path : [ [ 'CIRCLE', x, y, indexProps.dotProps.size ] ], attr : indexProps.dotProps}); // TODO Size should not be in dotProps (not an svg props)
+                }
               }
             }
 
-          if (props.fill)
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : [ fillPath ], attr : props.fillProps });
-          else 
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : false, attr : false });
-          pieces.push({ section : 'Series', serie : serie, subSection : 'Plot', path : [ linePath ], attr : props.plotProps , mousearea : 'pathsteps'});
-          
-          if (dotPieces.length)
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', paths : dotPieces });
-          else
-            pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', path : false, attr : false });
+          if (linePath[1].length > 0) { // remaining bit of serie after final null
+            linePaths.push (linePath.slice (0));
+            fillPaths.push (fillPath.slice (0));
+          }
+
+          for (k = 0; k < linePaths.length; k++) { // serie is now broken into separate pieces
+            if (props.fill)
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : [fillPaths[k]], attr : props.fillProps });
+            else 
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Fill', path : false, attr : false });
+            pieces.push({ section : 'Series', serie : serie, subSection : 'Plot', path : [linePaths[k]], attr : props.plotProps , mousearea : 'pathsteps'});
+          }          
+            if (dotPieces.length)
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', paths : dotPieces });
+            else
+              pieces.push({ section : 'Series', serie : serie, subSection : 'Dot', path : false, attr : false });
           
         } else {
           pieceBar = [];
@@ -3305,7 +3332,15 @@ $.elycharts.line = {
                 var y1 = Math.round(opt.height - opt.margins[2] - deltaY * (plot.to[i] - plot.min));
                 var y2 = Math.round(opt.height - opt.margins[2] - deltaY * (plot.from[i] - plot.min));
 
-                pieceBar.push({path : [ [ 'RECT', x1, y1, x1 + bwid - bpad * 2, y2 ] ], attr : props.plotProps });
+		var fillProps = {}; // to be used in the pieceBar.push only
+		if (props.fill && props.fillProps) {
+			fillProps = { // bar should be stroked and filled like a line; this var will extend the plotProps
+				fill : props.fillProps.fill ? props.fillProps.fill : 'none', // we want the fill color and fill opacity that were declared in options or in normalize method(s)
+				'fill-opacity' : props.fillProps['fill-opacity'] ? props.fillProps['fill-opacity'] : (props.fillProps.opacity ? props.fillProps.opacity : false) // fill-opacity takes precedence over (and overrides) opacity
+			};
+		}
+
+                pieceBar.push({path : [ [ 'RECT', x1, y1, x1 + bwid - bpad * 2, y2 ] ], attr : $.extend ({}, props.plotProps, fillProps) });
               } else
                 pieceBar.push({path : false, attr : false });
             }
@@ -3636,7 +3671,6 @@ $.elycharts.line = {
 }
 
 })(jQuery);
-/********* Source File: src/elycharts_chart_pie.js*********/
 /**********************************************************************
  * ELYCHARTS
  * A Javascript library to generate interactive charts with vectorial graphics.
