@@ -3,6 +3,8 @@ ElyCharts
 
 Interactive Javascript (SVG|VML) Charting Library
 
+NOTE: Feb 2014: recommend the new Elycharts 2.x here: https://code.google.com/p/elycharts/
+
 Don't use master... use dev-forward (branch)
 
 After some searching (google code, github), this seemed to be the most up-to-date branch/version of Elychart to fork from:
